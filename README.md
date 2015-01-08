@@ -21,6 +21,19 @@ Or install it yourself as:
 
 ## Usage
 
+application.js
+```javascript
+//= require snackbar
+```
+
+application.css.scss
+```scss
+@import "snackbar";
+@import "snackbar-material"; //optional
+```
+
+### Turn all Flash messages into Snackbars (optional)
+
 Add to the bottom of your layout
 ```
 <%= javascript_tag do %>
@@ -32,22 +45,15 @@ javascript:
   window.flashMessages = $.parseJSON('#{j flash.to_hash.to_json.html_safe}')
 ```
 
-And then to your application.js
+And then to your application.js document `ready` (and `page:load` for turbolinks)
 ```javascript
-//= require snackbar
-
-$(document).on('ready page:load', function(){
-  $.each( flashMessages, function(key, value){
-    $.snackbar({content: value, style: key, timeout: 10000});
-  });
+$.each( flashMessages, function(key, value){
+  $.snackbar({content: value, style: key, timeout: 10000});
 });
 ```
 
 Finally edit your application.css.scss
 ```scss
-@import "snackbar";
-@import "snackbar-material";
-
 .snackbar.error {
   background-color: red;
 }
